@@ -9,7 +9,7 @@ function Message({ text, user, date }) {
                 {text}
             </div>
             <footer className="flex justify-end italic text-xs">
-                [{date}]
+                [{date.toLocaleString()}]
             </footer>
         </div>
     )

@@ -23,34 +23,37 @@ function useSocket(url) {
 
 
 const Chat = ({ room }) => {
-    
-    const socket = useSocket('http://localhost:5000');
+
+    const socket = useSocket('https://theanonchat.herokuapp.com/');
 
 
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    useEffect(()=>{    
-        return ()=>{
-            if(socket !== null){
+
+    useEffect(() => {
+        return () => {
+            if (socket) {
                 console.log("Closing socket...");
                 socket.close();
             }
 
         }
-      },[])
+    }, [])
     useEffect(() => {
         function handleEvent(payload) {
             console.log(payload);
             setMessages(payload);
+            setLoading(false);
             scrollDownChat();
         }
-        if (socket && (room !== undefined)) {
-            console.log(room)
+        if (socket && room) {
+            console.log(room, socket);
             socket.emit('room-join', room);
             socket.on('chat-update', handleEvent);
         }
-    }, [room,socket])
+    }, [room, socket])
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -66,6 +69,9 @@ const Chat = ({ room }) => {
         if (document.getElementById('chatMessages').lastChild) document.getElementById('chatMessages').lastChild.scrollIntoView(false)
     }
 
+    if (loading) return null;
+
+
 
     return (
         <div className="w-full h-full flex flex-col justify-center items-center  text-center">
@@ -76,9 +82,11 @@ const Chat = ({ room }) => {
                 })}
             </div>
 
+
             <form onSubmit={(e) => handleSubmit(e)} className="flex flex-grow-0 justify-center items-center w-full mb-5">
                 <input className="w-3/6 rounded-l-lg p-4 border-t mr-0 border-b border-l text-gray-800 border-gray-200 bg-white shadow-lg" value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Text message..." required />
                 <button className="px-8 rounded-r-lg bg-yellow-400  text-gray-800 font-bold p-4 uppercase border-yellow-500 border-t border-b border-r shadow-lg">SEND</button>
+
             </form>
         </div >
     )
