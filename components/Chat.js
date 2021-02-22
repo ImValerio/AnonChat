@@ -24,7 +24,7 @@ function useSocket(url) {
 
 const Chat = ({ room }) => {
 
-    const socket = useSocket("http://localhost:5000");
+    const socket = useSocket("https://theanonchat.herokuapp.com");
 
 
     const [message, setMessage] = useState("");
