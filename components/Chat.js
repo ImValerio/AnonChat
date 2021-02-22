@@ -24,7 +24,7 @@ function useSocket(url) {
 
 const Chat = ({ room }) => {
 
-    const socket = useSocket('https://theanonchat.herokuapp.com/');
+    const socket = useSocket("http://localhost:5000");
 
 
     const [message, setMessage] = useState("");
@@ -69,7 +69,7 @@ const Chat = ({ room }) => {
         if (document.getElementById('chatMessages').lastChild) document.getElementById('chatMessages').lastChild.scrollIntoView(false)
     }
 
-    if (loading) return null;
+    if (loading) return (<div className="w-full h-full flex flex-col justify-center items-center  text-center"> <img className="h-40 w-40" src="/puff.svg" alt="" ></img></div>);
 
 
 
